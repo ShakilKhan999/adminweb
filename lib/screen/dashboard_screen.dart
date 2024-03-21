@@ -1,26 +1,8 @@
+import 'package:adminweb/controller/dashboard_controller.dart';
 import 'package:adminweb/screen/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-class User {
-  String fullName;
-  String gender;
-  String dob;
-  String subject;
-  String phone;
-  bool agreeToUpdates;
-  bool correspondInWelsh;
-
-  User({
-    required this.fullName,
-    required this.gender,
-    required this.dob,
-    required this.subject,
-    required this.phone,
-    required this.agreeToUpdates,
-    required this.correspondInWelsh,
-  });
-}
+import 'package:get/get.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -30,29 +12,10 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  List<User> userList = [
-    User(
-      fullName: 'John Doe',
-      gender: 'Male',
-      dob: '1990-01-01',
-      subject: 'Mathematics',
-      phone: '+1234567890',
-      agreeToUpdates: true,
-      correspondInWelsh: false,
-    ),
-    User(
-      fullName: 'Jane Smith',
-      gender: 'Female',
-      dob: '1995-05-05',
-      subject: 'Science',
-      phone: '+1987654321',
-      agreeToUpdates: false,
-      correspondInWelsh: true,
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final DashboardController dashboardController =
+        Get.put(DashboardController());
     return Scaffold(
       appBar: appBar(),
       backgroundColor: Colors.white,
@@ -111,71 +74,56 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           children: [
                             Expanded(
                               flex: 1,
-                              child: Container(
-                                width: 10.w,
-                                child: Text(
-                                  'Full Name',
-                                  style: TextStyle(
-                                    fontSize: 4.sp,
-                                    fontFamily: 'Inter',
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                              child: Text(
+                                'Full Name',
+                                style: TextStyle(
+                                  fontSize: 4.sp,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ),
                             Expanded(
                               flex: 1,
-                              child: Container(
-                                width: 10.w,
-                                child: Text(
-                                  'Gender',
-                                  style: TextStyle(
-                                    fontSize: 4.sp,
-                                    fontFamily: 'Inter',
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                              child: Text(
+                                'Gender',
+                                style: TextStyle(
+                                  fontSize: 4.sp,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ),
                             Expanded(
                               flex: 1,
-                              child: Container(
-                                width: 10.w,
-                                child: Text(
-                                  'Date of birth',
-                                  style: TextStyle(
-                                    fontSize: 4.sp,
-                                    fontFamily: 'Inter',
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                              child: Text(
+                                'Date of birth',
+                                style: TextStyle(
+                                  fontSize: 4.sp,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ),
                             Expanded(
                               flex: 1,
-                              child: Container(
-                                width: 10.w,
-                                child: Text(
-                                  'Subject',
-                                  style: TextStyle(
-                                    fontSize: 4.sp,
-                                    fontFamily: 'Inter',
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                              child: Text(
+                                'Subject',
+                                style: TextStyle(
+                                  fontSize: 4.sp,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ),
                             Expanded(
                               flex: 1,
-                              child: Container(
-                                width: 10.w,
-                                child: Text(
-                                  'Phone',
-                                  style: TextStyle(
-                                    fontSize: 4.sp,
-                                    fontFamily: 'Inter',
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                              child: Text(
+                                'Email',
+                                style: TextStyle(
+                                  fontSize: 4.sp,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ),
@@ -213,105 +161,119 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                     ),
                     Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color.fromRGBO(204, 204, 204, 0.2),
-                            offset: Offset(0, 1),
-                            blurRadius: 2,
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: userList
-                            .map((user) => Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 15),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: Padding(
-                                          padding: EdgeInsets.only(left: 5.w),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color.fromRGBO(204, 204, 204, 0.2),
+                              offset: Offset(0, 1),
+                              blurRadius: 2,
+                            ),
+                          ],
+                        ),
+                        child: Obx(
+                          () => Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ListView.separated(
+                                  shrinkWrap: true,
+                                  itemCount:
+                                      dashboardController.userList.length,
+                                  separatorBuilder:
+                                      (BuildContext context, int index) =>
+                                          Divider(color: Colors.grey),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    final user =
+                                        dashboardController.userList[index];
+                                    return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(left: 5.w),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(user.fullName.toString()),
+                                                Text('location'),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Text(user.gender.toString()),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child:
+                                              Text(user.dateOfBirth.toString()),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
                                           child: Text(
-                                            user.fullName,
+                                              user.subjectCategory.toString()),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Container(
+                                            // color: Colors.amber,
+                                            child: Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 8.w),
+                                              child: Text(
+                                                user.email.toString(),
+                                                // textAlign: TextAlign.center,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Text(
-                                          user.gender,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Text(
-                                          user.dob,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Text(
-                                          user.subject,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Text(
-                                          user.phone,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Container(
+                                        Expanded(
+                                          flex: 1,
                                           child: Checkbox(
-                                            value: user.agreeToUpdates,
+                                            value: user.agreeToMarketing,
                                             onChanged: (value) {
                                               setState(() {
-                                                user.agreeToUpdates =
+                                                user.agreeToMarketing =
                                                     value ?? false;
                                               });
                                             },
                                           ),
                                         ),
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Container(
+                                        Expanded(
+                                          flex: 1,
                                           child: Checkbox(
-                                            value: user.correspondInWelsh,
+                                            value: user.agreeToMarketing,
                                             onChanged: (value) {
                                               setState(() {
-                                                user.correspondInWelsh =
+                                                user.agreeToMarketing =
                                                     value ?? false;
                                               });
                                             },
                                           ),
                                         ),
-                                      ),
-                                      IconButton(
-                                        icon: Icon(Icons.edit),
-                                        onPressed: () {
-                                          _showEditDialog(context, user);
-                                        },
-                                      ),
-                                      IconButton(
-                                        icon: Icon(Icons.delete),
-                                        onPressed: () {},
-                                      ),
-                                    ],
-                                  ),
-                                ))
-                            .toList(),
-                      ),
-                    ),
+                                        IconButton(
+                                          icon: Icon(Icons.edit),
+                                          onPressed: () {
+                                            // _showEditDialog(context, user);
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: Icon(Icons.delete),
+                                          onPressed: () {},
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ]),
+                        )),
                   ],
                 ),
               ),
@@ -322,7 +284,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  void _showEditDialog(BuildContext context, User user) {
+  void _showEditDialog(BuildContext context, user) {
     TextEditingController _fullNameController =
         TextEditingController(text: user.fullName);
     TextEditingController _genderController =
