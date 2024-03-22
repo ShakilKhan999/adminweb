@@ -7,19 +7,21 @@ AppBar appBar() {
     backgroundColor: Colors.grey.shade100,
     elevation: 0,
     toolbarHeight: 40,
-    actions: [
+    actions: const [
       MyCircleAvatar(),
     ],
   );
 }
 
 class MyCircleAvatar extends StatelessWidget {
+  const MyCircleAvatar({super.key});
+
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
       itemBuilder: (BuildContext context) {
         return [
-          PopupMenuItem(
+          const PopupMenuItem(
             value: 1,
             child: Row(
               children: [
@@ -27,7 +29,7 @@ class MyCircleAvatar extends StatelessWidget {
                   Icons.logout,
                   color: Colors.black,
                 ),
-                const SizedBox(
+                SizedBox(
                   width: 5,
                 ),
                 Text(
@@ -46,7 +48,7 @@ class MyCircleAvatar extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => LoginScreen(),
+              builder: (context) => const LoginScreen(),
             ));
         switch (value) {
           case 1:

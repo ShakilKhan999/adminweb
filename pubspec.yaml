@@ -38,6 +38,7 @@ dependencies:
   flutter_screenutil: ^5.9.0
   http:
   get: ^4.6.6
+  intl:
 
 dev_dependencies:
   flutter_test:

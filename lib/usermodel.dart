@@ -33,7 +33,7 @@ class Datum {
   String id;
   String? fullName;
   String? appKey;
-  DateTime? dateOfBirth;
+  String? dateOfBirth;
   String? gender;
   bool? agreeToMarketing;
   double? latitude;
@@ -43,6 +43,7 @@ class Datum {
   int v;
   String? email;
   String? password;
+  bool? correspond;
 
   Datum({
     required this.subjectCategory,
@@ -59,6 +60,7 @@ class Datum {
     required this.v,
     this.email,
     this.password,
+    this.correspond,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -67,9 +69,7 @@ class Datum {
         id: json["_id"],
         fullName: json["fullName"],
         appKey: json["AppKey"],
-        dateOfBirth: json["dateOfBirth"] == null
-            ? null
-            : DateTime.parse(json["dateOfBirth"]),
+        dateOfBirth: json["dateOfBirth"],
         gender: json["Gender"],
         agreeToMarketing: json["agreeToMarketing"],
         latitude: json["latitude"]?.toDouble(),
@@ -79,6 +79,7 @@ class Datum {
         v: json["__v"],
         email: json["email"],
         password: json["password"],
+        correspond: json["correspond"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -86,7 +87,7 @@ class Datum {
         "_id": id,
         "fullName": fullName,
         "AppKey": appKey,
-        "dateOfBirth": dateOfBirth?.toIso8601String(),
+        "dateOfBirth": dateOfBirth,
         "Gender": gender,
         "agreeToMarketing": agreeToMarketing,
         "latitude": latitude,
@@ -96,5 +97,6 @@ class Datum {
         "__v": v,
         "email": email,
         "password": password,
+        "correspond": correspond,
       };
 }

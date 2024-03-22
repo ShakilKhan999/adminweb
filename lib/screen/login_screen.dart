@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     'Admin Panel',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(0xFF4B5563),
+                      color: const Color(0xFF4B5563),
                       fontSize: 7.sp,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w400,
@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 40.h,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF0a7bc4),
+                            backgroundColor: const Color(0xFF0a7bc4),
                             shape: RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.circular(10), // <-- Radius
@@ -137,10 +137,42 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DashboardScreen(),
-                                ));
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const DashboardScreen(),
+                                    ));
+                            if (emailController.text == '') {
+                              const snackBar = SnackBar(
+                                content: Text('Email required'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                              return;
+                            }
+                            if (passwordController.text == '') {
+                              const snackBar = SnackBar(
+                                content: Text('Password required'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+
+                              return;
+                            } else {
+                              if (emailController.text == "admin@gmail.com" &&
+                                  passwordController.text == "admin") {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const DashboardScreen(),
+                                    ));
+                              } else {
+                                const snackBar = SnackBar(
+                                  content: Text('Invalid Email or Password'),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              }
+                            }
                           },
                           child: Text(
                             'Login',
